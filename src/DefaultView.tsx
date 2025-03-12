@@ -14,6 +14,9 @@ const DefaultView = (): React.ReactNode => {
     return (
         <Container maxWidth="lg">
             <Typography variant="h2" component="h1" sx={{ m: 4 }}>
+                Development Environment
+            </Typography>
+            <Typography variant="h2" component="h1" sx={{ m: 4 }}>
                 FlexIQ Workout Caclulator
             </Typography>
             <Stack justifyContent="center" direction="column" spacing={2} sx={{ m: 4 }}>
