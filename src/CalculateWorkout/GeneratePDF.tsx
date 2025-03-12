@@ -25,7 +25,7 @@ export const GeneratePDF: React.FC = () => {
 
     const generateCustomPDF = async (): Promise<Uint8Array> => {
         // Fetch and load the template
-        const templateBytes = await fetch("src/templates/flex-iq-pdf-template-no-icon-font-carlito.pdf").then(res => res.arrayBuffer());
+        const templateBytes = await fetch("/flex-iq-pdf-template-no-icon-font-carlito.pdf").then(res => res.arrayBuffer());
         const pdfDoc = await PDFDocument.load(templateBytes);
 
         let pages = pdfDoc.getPages();
