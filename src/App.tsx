@@ -18,8 +18,8 @@ const App = (): React.ReactNode => {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <BrowserRouter>
-            <QueryClientProvider client={new QueryClient()} >\
-              <Viewport  >
+            <QueryClientProvider client={new QueryClient()}>
+              <Viewport >
                 <Suspense fallback={<Outline />}>
                   <Routes />
                 </Suspense>
