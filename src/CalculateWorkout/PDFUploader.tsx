@@ -57,9 +57,9 @@ export const PDFUploader: React.FC = () => {
     });
 
     return (
-        <Box sx={{ border: '3px solid #ccc', borderRadius: '8px', m: 10 }}>
-            <Typography variant="h3" textAlign="center" sx={Styles.Header}>Upload PDF's</Typography>
-            <Grid container direction="row" justifyContent="center" alignItems="center" spacing={2} sx={{ m: 10 }}>
+        <Box>
+            <Grid container direction="column" justifyContent="center" alignItems="center" spacing={2} sx={{ py: 15, border: '3px solid #ccc', borderRadius: '8px' }}>
+                <Typography variant="h3" textAlign="center" sx={Styles.Header}>Upload PDF's</Typography>
                 <Grid>
                     <Button
                         variant="contained"
