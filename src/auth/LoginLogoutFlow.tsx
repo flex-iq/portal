@@ -6,16 +6,48 @@ import MenuIcon from '@mui/icons-material/Menu';
 import LoginButton from './LoginButton';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useNavigate } from 'react-router-dom';
+import { Styles } from '@/theme/Styles';
 
+interface UserMenuProps {
+    settings: string[];
+    anchorEl: null | HTMLElement;
+    handleClose: (setting: string) => void;
+}
+
+const UserMenu = ({ settings, anchorEl, handleClose }: UserMenuProps) => (
+    <Menu
+        sx={{ mt: '45px' }}
+        id="menu-appbar"
+        anchorEl={anchorEl}
+        anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+        }}
+        keepMounted
+        transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+        }}
+        open={Boolean(anchorEl)}
+        onClose={() => handleClose('')}
+    >
+        {settings.map((setting) => (
+            <MenuItem key={setting} onClick={() => handleClose(setting)}>
+                <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
+            </MenuItem>
+        ))}
+    </Menu>
+);
 
 export const LoginLogoutFlow = () => {
+    const width = window.innerWidth
     const navigate = useNavigate();
     const { isAuthenticated, user, logout } = useAuth0();
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
     const largeScreenSettings = ['Profile', 'Logout'];
 
-    const smallScreenSettings = ['Workouts', 'Monthly', 'Contact', 'Profile', 'Logout'];
+    const smallScreenSettings = ['Workout', 'Monthly', 'Contact', 'Profile', 'Logout'];
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElUser(event.currentTarget);
     };
@@ -23,7 +55,7 @@ export const LoginLogoutFlow = () => {
     const handleCloseUserMenu = (setting: string) => {
         setAnchorElUser(null);
         switch (setting) {
-            case 'Workouts':
+            case 'Workout':
                 // Navigate to workouts page
                 console.log('Navigate to Workouts');
                 navigate('/calculate-workout');
@@ -63,54 +95,19 @@ export const LoginLogoutFlow = () => {
             {isAuthenticated ?
                 <>
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                        <Typography sx={{ color: 'white', mr: 1, display: { xs: "none", sm: "none", md: "flex" } }}>{user?.name}</Typography>
-                        <Avatar alt="Remy Sharp" sx={{ display: { xs: "none", sm: "none", md: "flex" } }} src={user?.picture} />
-                        <MenuIcon sx={{ color: "white", display: { md: "none" } }} />
+                        <Typography sx={{ color: 'white', mr: 1, display: Styles.LargeScreenDisplay }}>{user?.name}</Typography>
+                        <Avatar alt="Remy Sharp" sx={{ display: Styles.LargeScreenDisplay }} src={user?.picture} />
+                        <MenuIcon sx={{ color: "white", display: Styles.SmallScreenDisplay }} />
                     </IconButton>
-                    <Menu
-                        sx={{ mt: '45px', display: { xs: "none", sm: "none", md: "flex" } }}
-                        id="menu-appbar"
-                        anchorEl={anchorElUser}
-                        anchorOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                        keepMounted
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                        open={Boolean(anchorElUser)}
-                        onClose={handleCloseUserMenu}
-                    >
-                        {largeScreenSettings.map((largeScreenSetting) => (
-                            <MenuItem key={largeScreenSetting} onClick={() => handleCloseUserMenu(largeScreenSetting)}>
-                                <Typography sx={{ textAlign: 'center' }}>{largeScreenSetting}</Typography>
-                            </MenuItem>
-                        ))}
-                    </Menu>
-                    <Menu
-                        sx={{ mt: '45px', display: { md: "none" } }}
-                        id="menu-appbar"
-                        anchorEl={anchorElUser}
-                        anchorOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                        keepMounted
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                        open={Boolean(anchorElUser)}
-                        onClose={handleCloseUserMenu}
-                    >
-                        {smallScreenSettings.map((smallScreenSetting) => (
-                            <MenuItem key={smallScreenSetting} onClick={() => handleCloseUserMenu(smallScreenSetting)}>
-                                <Typography sx={{ textAlign: 'center' }}>{smallScreenSetting}</Typography>
-                            </MenuItem>
-                        ))}
-                    </Menu>
+                    <>
+                        {width < 800 &&
+                            <UserMenu settings={smallScreenSettings} anchorEl={anchorElUser} handleClose={handleCloseUserMenu} />
+
+                        }
+                        {width > 800 &&
+                            <UserMenu settings={largeScreenSettings} anchorEl={anchorElUser} handleClose={handleCloseUserMenu} />
+                        }
+                    </>
                 </>
                 :
                 <LoginButton />

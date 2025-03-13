@@ -49,10 +49,10 @@ export const GeneratePDF: React.FC = () => {
             return pdfDoc.addPage(newPage);
         };
 
-        page.drawText(`${workouts[0].generatedName}`, { x: xAxis, y: 710, size: headerSize })
-        page.drawText(`Weight: ${workouts[0].bodyWeight}kg`, { x: xAxis, y: 685, size: subHeader })
-        page.drawText(`Total TUT: ${workouts[0].tut}`, { x: xAxis, y: 665, size: subHeader })
-        for (const [exerciseIndex, exercise] of workouts[0].exercises.entries()) {
+        page.drawText(`${workouts[0]?.generatedName}`, { x: xAxis, y: 710, size: headerSize })
+        page.drawText(`Weight: ${workouts[0]?.bodyWeight}kg`, { x: xAxis, y: 685, size: subHeader })
+        page.drawText(`Total TUT: ${workouts[0]?.tut}`, { x: xAxis, y: 665, size: subHeader })
+        for (const [exerciseIndex, exercise] of workouts[0].exercises?.entries() ?? []) {
             // If running out of space, add a new template-based page
             if (y < pageMargin + (3 * lineSpacing)) {
                 page = await addNewPageFromTemplate();
@@ -123,35 +123,32 @@ export const GeneratePDF: React.FC = () => {
     }
 
     return (
-        <Box sx={{ textAlign: 'center' }}>
-            <Box sx={{ border: '3px solid #ccc', borderRadius: '8px', m: 10 }}>
-                <Typography variant="h3" sx={Styles.Header}>Generate PDF</Typography>
-                <Grid container justifyContent="center" spacing={2} sx={{ m: 10 }}>
-                    <Grid>
-                        <Button
-                            variant="contained"
-                            size="large"
-                            onClick={() => downloadPDF()}
-                            startIcon={<CheckCircleIcon />}
-                        >
-                            Download PDF
-                        </Button>
-                    </Grid>
-                    <Grid>
-                        <Button variant="contained" size="large" startIcon={<CheckCircleIcon />} onClick={() => handleReset()}>
-                            Reset
-                        </Button>
-                    </Grid>
+        <Box sx={{ textAlign: 'center', border: '3px solid #ccc', borderRadius: '8px' }}>
+            <Typography variant="h3" sx={Styles.Header}>Generate PDF</Typography>
+            <Grid container direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ m: 10, justifyContent: "center", alignItems: "center" }}>
+                <Grid>
+                    <Button
+                        variant="contained"
+                        size="large"
+                        onClick={() => downloadPDF()}
+                        startIcon={<CheckCircleIcon />}
+                    >
+                        Download
+                    </Button>
                 </Grid>
-                <Box>
-                    {pdfUrl && (
-                        <Box sx={{ m: 4 }}>
-                            <iframe src={`${pdfUrl}#toolbar=0`} width="100%" height="700px" style={{ border: 'none' }} />
-                        </Box>
-                    )}
-                </Box>
+                <Grid>
+                    <Button variant="contained" size="large" startIcon={<CheckCircleIcon />} onClick={() => handleReset()}>
+                        Reset
+                    </Button>
+                </Grid>
+            </Grid>
+            <Box sx={{ display: { xs: "none", sm: "none", md: "flex" } }}>
+                {pdfUrl && (
+                    <Box sx={{ m: 4 }}>
+                        <iframe src={`${pdfUrl}#toolbar=0`} width="100%" height="700px" style={{ border: 'none' }} />
+                    </Box>
+                )}
             </Box>
-
         </Box>
     )
 };

@@ -12,18 +12,15 @@ export const UserProfile = () => {
 
     return (
         isAuthenticated && (
-            <Box sx={{ border: '3px solid #ccc', borderRadius: '8px', m: 10 }}>
-                <Grid container spacing={2} direction="column" sx={{ m: 5, justifyContent: "center", alignItems: "center" }}>
-                    <Grid >
-                        <Avatar sx={{ width: 76, height: 76 }} src={user?.picture} alt={user?.name} />
-                    </Grid>
-                    <Grid>
-                        <Typography><strong>Name: </strong>{user?.name}</Typography>
-                        <Typography><strong>Email:</strong> {user?.email}</Typography>
-                    </Grid>
+            <Grid container spacing={2} direction="column" sx={{ justifyContent: "center", alignItems: "center", border: '3px solid #ccc', borderRadius: '8px', py: 15 }}>
+                <Grid >
+                    <Avatar sx={{ width: 80, height: 80 }} src={user?.picture} alt={user?.name} />
                 </Grid>
-
-            </Box>
+                <Grid>
+                    <Typography><strong>Name: </strong>{user?.name}</Typography>
+                    <Typography><strong>Email:</strong> {user?.email}</Typography>
+                </Grid>
+            </Grid>
         )
     );
 };
