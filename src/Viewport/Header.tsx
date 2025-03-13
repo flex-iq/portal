@@ -15,7 +15,7 @@ import { LoginLogoutFlow } from '../auth/LoginLogoutFlow';
 const navLinks = [
   { name: "Workouts", path: "/calculate-workout" },
   { name: "Monthly", path: "/calculate-monthly" },
-  { name: "About", path: "/about" },
+  // { name: "About", path: "/about" },
   { name: "Contact", path: "/contact" }
 ];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -60,14 +60,16 @@ const Header = (): React.ReactNode => {
               <Button
                 key={navLink.path}
                 onClick={() => navigate(navLink.path)}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{ my: 2, color: 'white', display: { sm: "none", md: "block" } }}
               >
                 {navLink.name}
               </Button>
             ))}
           </Box>
-          <LoginLogoutFlow />
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ ml: "auto" }}>
+            <LoginLogoutFlow />
+          </Box>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'none' } }}>
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
